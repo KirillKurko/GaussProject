@@ -15,6 +15,12 @@ public class GaussMethodUtility {
         columnsAmount = a[0].length;
     }
 
+    public void gaussMethod() {
+        forwardMovement();
+        reverseMovement();
+        calculateAnswer();
+    }
+
     private void forwardMovement() {
         for (int j = 0; j < rowsAmount - 1; ++j) {
             for (int i = j + 1; i < rowsAmount; ++i) {
@@ -27,7 +33,7 @@ public class GaussMethodUtility {
         }
     }
 
-    private void reverseMovement(double[][] a, double[] x) {
+    private void reverseMovement() {
         for (int j = rowsAmount - 1; j > 0; --j) {
             for (int i = j - 1; i >= 0; --i) {
                 double temp = a[i][j];
@@ -39,10 +45,27 @@ public class GaussMethodUtility {
         }
     }
 
-    private void calculateAnswer(double [][] a, double[] x) {
+    private void calculateAnswer() {
         for (int i = 0; i < rowsAmount; ++i) {
             x[i] /= a[i][i];
             a[i][i] /= a[i][i];
         }
     }
+
+    public double calculateDiscrepancy(double[] b) {
+        double currentDiscrepancy = 0;
+        double maxDiscrepancy = 0;
+        for (int i = 0; i < rowsAmount; ++i) {
+            double q = 0;
+            for (int j = 0; j < columnsAmount; ++j) {
+                q += a[i][j] * x[j];
+            }
+            currentDiscrepancy = Math.abs(b[i] - q);
+            if (currentDiscrepancy > maxDiscrepancy) {
+                maxDiscrepancy = currentDiscrepancy;
+            }
+        }
+        return maxDiscrepancy;
+    }
+
 }
